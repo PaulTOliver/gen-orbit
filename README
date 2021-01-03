@@ -1,0 +1,23 @@
+:: My Gentoo auto-configurator script. Meant to be run from within a VirtualBox VM running Archlinux's live CD.
+
+:: Results in:
+-- Two partitions: /boot and /root
+-- EFI boot partition
+-- Root partition is LUKS encrypted
+-- systemd-boot
+-- No swap
+-- Auto-login for daily user
+-- Passwordless DOAS for daily user
+
+:: Instructions
+:: Run the following command from within Archlinux's live CD environment to install the base system:
+
+bash <(curl -s https://raw.githubusercontent.com/PaulTOliver/gen-orbit/master/setup-livecd.sh)
+
+:: After reboot and login, run the following to setup user environment:
+
+bash <(curl -s https://raw.githubusercontent.com/PaulTOliver/gen-orbit/master/setup-user.sh)
+
+:: Notes:
+-- This script is meant for experimentation only. Ideally you will want to do these steps manually when installing on
+-- hardware, given Gentoo's (ehem) sensitivity to fuck-ups.

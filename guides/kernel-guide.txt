@@ -1,0 +1,121 @@
+Kernel configuration
+====================
+Below is a category-list of points to take into account with the aim of producing a minimal (non-bloated) kernel. Some
+of the features selected (e.g. LZ4 compression) will have dependencies which need to be emerged.
+
+- General setup ===>
+    - Kernel compression mode => LZ4
+    - POSIX message queues => disabled
+    - Enable process_vm_readv/writev syscalls => disabled
+    - uselib syscall => disabled
+    - Auditing support => disabled
+    - CPU/Task time and stats accounting ===>
+        - BSD process accounting => disabled
+        - Export task/process statistics through netlink => disabled
+    - Kernel log buffer size => 15
+    - CPU kernel log buffer size contribution => 15
+    - Temporary per-CPU printk log buffer size => 12
+    - Support initial ramdisk/ramfs compressed using => LZ4 only (disable all others)
+    - Enable bpf() system call => enable (systemd)
+- Processor type and features ===>
+    - Enable MPS table => disabled
+    - Support for extended (non-PC) x86 => disabled
+    - Processor family => E.g. Core2/newer Xeon (for modern intel processors)
+    - Max. number of CPUs => Max. num. of threads for your CPU
+    - Multicore scheduler support => disable for processors with hyperthreading (most intel ones nowadays)
+    - Reroute for broken boot IRQs => disabled
+    - Intel/AMD MCE features => enable for your processor only
+    - Performance monitoring ===>
+        - Intel/AMD options => enable for your processor only
+    - IOPERM and IOPL Emulation => disabled
+    - CPU microcode loading => enable for your processor only
+    - Enable 5-level page tables => disabled
+    - NUMA memory allocation => disable for ordinary (e.g. 4 cores) processors
+    - Check for low memory corruption => disabled
+    - MTRR cleanup support => set both values to 1
+    - Memory protection keys => disabled
+    - EFI runtime service support ===>
+        - EFI stub support ===>
+            - EFI mixed-node support => enable on UEFI systems
+    - kexec system call => disabled
+    - kernel crash dumps => disabled
+    - Built-in kernel command line => enable
+- Power management =>
+    - Suspend to RAM => enable on laptops
+    - Hybernate => optionally enable on laptops (disable if no swap is used)
+    - Power management debug support => disabled
+    - CPU frequency scaling ===>
+        - Default CPU frequency governor => on-demand
+    - CPU idle driver for intel => enable on intel
+- Bus options (PCI etc.) ===>
+    - Mark VGA/VBE/EFI FB as generic system framebuffer => enable on VBox guests
+- Binary emulation ===>
+    - IA32 emulation => enable when using multilib
+- Firmware drivers ===>
+    - Export DMI identification via sysfs to userspace => disabled for systemd
+    - EFI support ===>
+        - EFI variables support via sysfs => enable on UEFI systems
+- Virtualization ===>
+    - Kernel-based Virtual Machine (KVM) support => enable if virtualization is desired
+- Enable the block layer ===>
+    - Block layer debugging info in debugfs => disabled
+    - Partition types ===>
+        - Adv. partition selection => enabled
+        - EFI GUID partition support => enable on UEFI systems
+        - PC BIOS (MSDOS partition table support) => enable on UEFI systems
+- IO schedulers ===>
+    - BFQ IO scheduler => enabled
+- Networking support ===>
+    - Bluetooth subsystem support => enabled if bluetooth is desired
+- Device drivers ===>
+    - PCCARD support => disabled
+    - Block devices ===>
+        - Num. of loop devices to pre-create => 0
+    - NVME support => enable when using a NVME disk
+    - SCSI device support ===>
+        - Async. SCSI scanning => enabled
+    - Multiple device driver support (RAID and LVM) => enabled
+        - Device mapper support => enabled
+            - Crypt target support => enabled
+    - Machintosh device drivers => disabled
+    - Network device support => enabled
+        - Ethernet driver support ===>
+            - Intel devices ===>
+                - Intel(R) Pro/1000 Gigabit Ethernet support => enable on VBox guest
+    - Input device support ===>
+        - Mice ===>
+            - PS/2 support => disabled (enable on VBox guests)
+        - Joysticks/Gamepads/Tablets/Touchscreens/Miscelaneous Devices => disable if not planning to use
+    - Graphics support ===>
+        - Max. num. of GPUs => 2
+        - Laptop hybrid graphics => enable when using hybrid graphics
+        - Intel HD graphics => enable on intel
+        - DRM driver for VMware Virtual GPU => enable on VBox guests
+            - Enable framebuffer console under vmwgfx by default => enable on VBox guests
+        - Frame buffer Devices ===>
+            - Support for frame buffer devices ===>
+                - Enable Firmware EDID => enable on VBox guests
+                - Simple framebuffer support => enable on VBox guests
+    - Sound card support ===>
+        - Advanced Linux Sound Architecture ===>
+            - PCI sound devices ===>
+                - Intel/SiS/nVidia/AMD/ALi AC97 Controller => enable on VBox guests
+    - Virtio drivers ===>
+        - PCI driver for virtio devices => enable on VBox guests
+    - MMC/SD/SDIO card support => enable for SD card readers
+    - X86 platform spec. drivers => enable for laptops
+- File systems ===>
+    - FUSE (filesystem in userspace) => enable to enable fileshare with android devices
+    - Misc. file systems => disabled
+    - Network file systems => disabled
+- Cryptographic API ===>
+    - XTS support => enabled
+    - SHA224 and SHA256 digest algorithm => enabled
+    - AES cipher algorithms => enabled
+    - User-space interface for hash algorithms => enabled
+    - User-space interface for symmetric key cipher algorithms => enabled
+- Kernel hacking ===>
+    - RCU debugging ===>
+        - RCU CPU stall timeout => 3
+- Gentoo linux ===>
+    - Support for init systems => enable systemd only
