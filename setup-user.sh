@@ -39,6 +39,7 @@ github=https://github.com/paultoliver
 git clone --depth 1 --single-branch --branch master $github/dotfiles
 git clone --depth 1 --single-branch --branch orbit $github/dmenu
 git clone --depth 1 --single-branch --branch orbit $github/dwm
+git clone --depth 1 --single-branch --branch orbit $github/slstatus
 git clone --depth 1 --single-branch --branch orbit $github/st
 
 echo
@@ -50,6 +51,12 @@ make && doas make install
 echo
 echo ":: Building dmenu"
 cd ~/suckless/dmenu
+cp -v config.def.h config.h
+make && doas make install
+
+echo
+echo ":: Building slstatus"
+cd ~/suckless/slstatus
 cp -v config.def.h config.h
 make && doas make install
 
